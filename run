@@ -1,0 +1,60 @@
+Importing Packages
+import pandas as pd 
+from pandas import Series 
+from pandas import concat 
+import tensorflow as tf 
+import matplotlib.pyplot as plt 
+import numpy as np
+from tensorflow.keras.models import Sequential 
+from tensorflow.keras import Model 
+from tensorflow.keras.layers 
+importInput,LSTM,Embedding,Flatten,Dropout,Dense,Concatenate,TimeDistributed, Bidirectional,Attention 
+from sklearn.model_selection import train_test_split 
+from sklearn.preprocessing import LabelEncoder 
+from sklearn.preprocessing import MinMaxScaler 
+from sklearn.metrics import make_scorer
+from sklearn.metrics import accuracy_score 
+from tensorflow.keras.wrappers.scikit_learn import KerasClassifier
+Implementation of random forest algorithim
+from sklearn.feature_selection import RFE
+from sklearn.impute import SimpleImputer
+from sklearn.ensemble import RandomForestClassifier
+
+imputer = SimpleImputer(strategy='median')
+
+RF=RandomForestClassifier(random_state=42)
+rfe_RF=RFE(RF,n_features_to_select=4,verbose=21)
+rfe_RF.fit(x_train,y_train)
+names=x_train.columns.tolist()
+b=rfe_RF.ranking_
+a=pd.DataFrame(sorted(list(map(lambda x,y: (x,y),b,names))),columns=['rank','features'])
+a.to_csv('feature_selection.csv')
+RFE_selected=a['features'][a['rank']==1]
+param_grid = {"n_estimators" : [90, 180, 270, 360, 450, 540, 630],
+              "max_depth" : [2,3,5,7],
+              "min_samples_leaf" : [2, 4],
+              "max_features" : [0.4,0.5,0.6]
+             }
+RF_model=RandomForestClassifier() #estimator
+clf = GridSearchCV(RF_model, param_grid, cv=3)
+clf.fit(x_train,y_train)
+clf.best_estimator_
+implementation of knn alogorithm
+from sklearn.model_selection import RandomizedSearchCV, GridSearchCV
+from sklearn.metrics import roc_auc_score
+from sklearn.model_selection import StratifiedKFold
+from xgboost import XGBClassifier
+
+knn = KNeighborsClassifier()
+from sklearn.model_selection import GridSearchCVk_range = list(range(1, 31))
+
+param_grid = dict(n_neighbors=k_range)  
+grid=GridSearchCV(knn,param_grid, cv=10,scoring='accuracy',return_train_score=False,verbose=1)
+params = {       
+                        'min_child_weight': [1, 5, 10],      
+                         'gamma': [0.5, 1, 1.5, 2, 5],       
+                        'subsample': [0.6, 0.8, 1.0],       
+                        'colsample_bytree': [0.6, 0.8, 1.0],      
+                       'max_depth': [3, 4, 5]     
+                   }
+ 
